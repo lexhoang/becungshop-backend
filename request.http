@@ -1,0 +1,19 @@
+GET http://localhost:8080
+becungshop999
+
+{
+    "img":"img",
+        "name":"name",
+        "productFor":"6455b1075b311d7ff0625356",
+        "type":"6455bf5cbb4b854452eea90c",
+        "amount":1111,
+        "prices":2222,
+        "color":"color",
+        "size":"size",
+        "infoCode":"infoCode",
+        "infoAge":"infoAge",
+        "infoWeight":"infoWeight",
+        "infoMaterial":"infoMaterial",
+        "infoMadeIn":"infoMadeIn",
+        "infoDescription":"infoDescription"
+}
