@@ -91,4 +91,84 @@ const getAllTypes = async (req, res) => {
     }
 }
 
-module.exports = { createType, getAllTypes }
+
+const getTypeById = async (req, res) => {
+    let id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+            status: "Error 400: Bad Request",
+            message: "Type ID is not a valid",
+        });
+    }
+
+    try {
+        const type = await TypesModel.findById(id);
+
+        return res.status(200).json({
+            status: "Success: Get Type By ID successfully",
+            data: type,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: "Error 500: Bad Request",
+            message: error.message,
+        });
+    }
+}
+
+const updateTypeById = async (req, res) => {
+    let id = req.params.id;
+    let bodyRequest = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+            status: "Error 400: Bad Request",
+            message: "Type ID is not a valid",
+        });
+    }
+
+    let updateType = {
+        name: bodyRequest.name,
+        productFor: bodyRequest.productFor,
+        description: bodyRequest.description
+    }
+    try {
+        const type = await TypesModel.findByIdAndUpdate(id, updateType)
+
+        return res.status(200).json({
+            status: "Success: Update Type By ID successfully",
+            data: type,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: "Error 500: Bad Request",
+            message: error.message,
+        });
+    }
+}
+
+const deleteTypeById = (req, res) => {
+    let id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+            status: "Error 400: Bad Request",
+            message: "Type ID is not a valid",
+        });
+    }
+
+    TypesModel.findByIdAndDelete(id)
+        .then((data) => {
+            return res.status(200).json({
+                status: "Success: Delete Type By ID successfully",
+            });
+        })
+        .catch((error) => {
+            return res.status(500).json({
+                status: "Error 500: Bad Request",
+                message: error.message,
+            });
+        })
+}
+module.exports = { createType, getAllTypes, getTypeById, updateTypeById, deleteTypeById }
