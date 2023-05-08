@@ -6,6 +6,9 @@ const ProductForSchema = new Schema({
     _id: {
         type: mongoose.Types.ObjectId
     },
+    img: {
+        type: String,
+    },
     name: {
         type: String,
         unique: true,

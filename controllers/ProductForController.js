@@ -13,6 +13,7 @@ const createProductFor = (req, res) => {
 
     let createNewProductFor = new ProductForModel({
         _id: new mongoose.Types.ObjectId(),
+        img: bodyRequest.img,
         name: bodyRequest.name,
         description: bodyRequest.description
     })
@@ -84,6 +85,7 @@ const updateProductFor = async (req, res) => {
         })
     }
     let updateProductFor = {
+        img: bodyRequest.img,
         name: bodyRequest.name,
         description: bodyRequest.description
     }
