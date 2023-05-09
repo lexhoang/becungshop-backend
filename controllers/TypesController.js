@@ -17,6 +17,7 @@ const createType = async (req, res) => {
 
     let CreateNewType = new TypesModel({
         _id: new mongoose.Types.ObjectId(),
+        image: bodyRequest.image,
         name: bodyRequest.name,
         productFor: bodyRequest.productFor,
         description: bodyRequest.description
@@ -129,6 +130,7 @@ const updateTypeById = async (req, res) => {
     }
 
     let updateType = {
+        image: bodyRequest.image,
         name: bodyRequest.name,
         productFor: bodyRequest.productFor,
         description: bodyRequest.description
