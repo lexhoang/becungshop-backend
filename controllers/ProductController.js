@@ -7,6 +7,13 @@ const ProductForModel = require('../models/ProductForModel');
 const createProduct = async (req, res) => {
     let bodyRequest = req.body;
 
+    if (!bodyRequest.name) {
+        return res.status(400).json({
+            status: 'Error 400: Bad Request',
+            message: 'Product name is required'
+        })
+    }
+
     let createNewProduct = new ProductModel({
         _id: new mongoose.Types.ObjectId(),
         img: bodyRequest.img,
