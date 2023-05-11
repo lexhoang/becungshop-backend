@@ -23,22 +23,7 @@ const createType = async (req, res) => {
         description: bodyRequest.description
     });
 
-    if (!mongoose.Types.ObjectId.isValid(bodyRequest.productFor)) {
-        return res.status(400).json({
-            status: "Error 400: Bad request",
-            message: "Product for is not valid!",
-        });
-    }
-
     try {
-        const productForExist = await ProductForModel.findOne({ _id: bodyRequest.productFor })
-        if (!productForExist) {
-            return res.status(400).json({
-                status: "Error 400: Bad request",
-                message: "ProductForID not found!",
-            })
-        }
-
         const type = await TypesModel.create(CreateNewType)
 
         return res.status(200).json({
