@@ -17,7 +17,7 @@ const createType = async (req, res) => {
 
     let CreateNewType = new TypesModel({
         _id: new mongoose.Types.ObjectId(),
-        image: bodyRequest.image,
+        photoUrl: bodyRequest.photoUrl,
         name: bodyRequest.name,
         productFor: bodyRequest.productFor,
         description: bodyRequest.description
@@ -114,14 +114,14 @@ const updateTypeById = async (req, res) => {
         });
     }
 
-    let updateType = {
-        image: bodyRequest.image,
+    let editType = {
+        photoUrl: bodyRequest.photoUrl,
         name: bodyRequest.name,
         productFor: bodyRequest.productFor,
         description: bodyRequest.description
     }
     try {
-        const type = await TypesModel.findByIdAndUpdate(id, updateType)
+        const type = await TypesModel.findByIdAndUpdate(id, editType)
 
         return res.status(200).json({
             status: "Success: Update Type By ID successfully",

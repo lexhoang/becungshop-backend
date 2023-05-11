@@ -6,7 +6,7 @@ const TypeSchema = new Schema({
     _id: {
         type: mongoose.Types.ObjectId,
     },
-    image: {
+    photoUrl: {
         type: String,
     },
     name: {

@@ -99,5 +99,95 @@ const getAllProduct = async (req, res) => {
     }
 }
 
+const getProductById = async (req, res) => {
+    let id = req.params.id;
 
-module.exports = { createProduct, getAllProduct }
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+            status: "Error 400: Bad Request",
+            message: "Product ID is not a valid",
+        });
+    }
+
+    try {
+        const product = await ProductModel.findById(id);
+
+        return res.status(200).json({
+            status: "Success: Get Product By ID successfully",
+            data: product,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: "Error 500: Bad Request",
+            message: error.message,
+        });
+    }
+}
+
+const updateProductById = async (req, res) => {
+    let id = req.params.id;
+    let bodyRequest = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+            status: "Error 400: Bad Request",
+            message: "Product ID is not a valid",
+        });
+    }
+    let editProduct = {
+        photoUrl: bodyRequest.photoUrl,
+        name: bodyRequest.name,
+        productFor: bodyRequest.productFor,
+        type: bodyRequest.type,
+        amount: bodyRequest.amount,
+        prices: bodyRequest.prices,
+        color: bodyRequest.color,
+        size: bodyRequest.size,
+        infoCode: bodyRequest.infoCode,
+        infoAge: bodyRequest.infoAge,
+        infoWeight: bodyRequest.infoWeight,
+        infoMaterial: bodyRequest.infoMaterial,
+        infoMadeIn: bodyRequest.infoMadeIn,
+        description: bodyRequest.description
+    }
+
+    try {
+        const product = await ProductModel.findByIdAndUpdate(id, editProduct);
+
+        return res.status(200).json({
+            status: "Success: Update Product By Id successfully",
+            data: product
+        })
+    } catch (error) {
+        return res.status(500).json({
+            status: "Error 500: Internal sever Error",
+            message: error.message
+        })
+    }
+}
+
+const deleteProductById = async (req, res) => {
+    let id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+            status: "Error 400: Bad Request",
+            message: "Product ID is not a valid",
+        });
+    }
+
+    ProductModel.findByIdAndDelete(id)
+        .then((data) => {
+            return res.status(200).json({
+                status: "Success: Delete Type By ID successfully",
+            });
+        })
+        .catch((error) => {
+            return res.status(500).json({
+                status: "Error 500: Bad Request",
+                message: error.message,
+            });
+        })
+}
+
+module.exports = { createProduct, getAllProduct, getProductById, updateProductById, deleteProductById }
