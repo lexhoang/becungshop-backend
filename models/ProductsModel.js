@@ -42,18 +42,31 @@ const ProductSchema = new Schema({
 
     infoCode: {
         type: String,
+        required: true
     },
-    infoAge: {
-        type: String,
+    infoMinAge: {
+        type: Number,
+        required: true
     },
-    infoWeight: {
-        type: String,
+    infoMaxAge: {
+        type: Number,
+        required: true
+    },
+    infoMinWeight: {
+        type: Number,
+        required: true
+    },
+    infoMaxWeight: {
+        type: Number,
+        required: true
     },
     infoMaterial: {
         type: String,
+        required: true
     },
     infoMadeIn: {
         type: String,
+        required: true
     },
     description: {
         type: String,
