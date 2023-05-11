@@ -15,7 +15,7 @@ const createProduct = async (req, res) => {
 
     let createNewProduct = new ProductModel({
         _id: new mongoose.Types.ObjectId(),
-        img: bodyRequest.img,
+        photoUrl: bodyRequest.photoUrl,
         name: bodyRequest.name,
         productFor: bodyRequest.productFor,
         type: bodyRequest.type,
@@ -28,7 +28,7 @@ const createProduct = async (req, res) => {
         infoWeight: bodyRequest.infoWeight,
         infoMaterial: bodyRequest.infoMaterial,
         infoMadeIn: bodyRequest.infoMadeIn,
-        infoDescription: bodyRequest.infoDescription
+        description: bodyRequest.description
     });
 
     if (!mongoose.Types.ObjectId.isValid(bodyRequest.type)) {

@@ -7,7 +7,7 @@ const ProductSchema = new Schema({
         type: mongoose.Types.ObjectId
     },
 
-    img: {
+    photoUrl: {
         type: String,
         required: true
     },
@@ -55,7 +55,7 @@ const ProductSchema = new Schema({
     infoMadeIn: {
         type: String,
     },
-    infoDescription: {
+    description: {
         type: String,
     },
 
