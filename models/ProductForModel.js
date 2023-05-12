@@ -2,32 +2,29 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const TypeSchema = new Schema({
+const ProductForSchema = new Schema({
     _id: {
-        type: mongoose.Types.ObjectId,
+        type: mongoose.Types.ObjectId
     },
     photoUrl: {
         type: String,
     },
     name: {
         type: String,
+        unique: true,
         required: true
     },
-    productFor: {
-        type: mongoose.Types.ObjectId,
-        ref: "productfors"
-    },
     description: {
-        type: String,
+        type: String
     },
     timeCreated: {
         type: Date,
-        default: Date.now()
+        default: Date.now(),
     },
     timeUpdated: {
         type: Date,
-        default: Date.now()
-    }
+        default: Date.now(),
+    },
 });
 
-module.exports = mongoose.model('types', TypeSchema);
+module.exports = mongoose.model('productfors', ProductForSchema);

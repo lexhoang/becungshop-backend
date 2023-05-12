@@ -4,8 +4,9 @@ const mongoose = require('mongoose');
 var cors = require('cors');
 
 
-const TypesRouter = require('./routers/TypesRouter');
+const ProductForRouter = require('./routers/ProductForRouter');
 const ProductRouter = require('./routers/ProductRouter');
+const TypesRouter = require('./routers/TypesRouter');
 
 
 const app = express();
@@ -33,6 +34,7 @@ mongoose.connect(mongoAtlasUri, { useNewUrlParser: true, useUnifiedTopology: tru
     .catch(err => console.error('Could not connect to MongoDB', err))
 
 
+app.use('/', ProductForRouter);
 app.use('/', TypesRouter);
 app.use('/', ProductRouter);
 

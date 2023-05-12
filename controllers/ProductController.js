@@ -33,6 +33,12 @@ const createProduct = async (req, res) => {
         description: bodyRequest.description
     });
 
+    if (!mongoose.Types.ObjectId.isValid(bodyRequest.productFor)) {
+        return res.status(400).json({
+            status: "Error 400: Bad request",
+            message: "Product For is not valid!",
+        });
+    }
     if (!mongoose.Types.ObjectId.isValid(bodyRequest.type)) {
         return res.status(400).json({
             status: "Error 400: Bad request",

@@ -18,7 +18,7 @@ const ProductSchema = new Schema({
     },
 
     productFor: {
-        type: String,
+        type: mongoose.Types.ObjectId,
         ref: 'types'
     },
 

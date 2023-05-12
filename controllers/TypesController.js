@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const TypesModel = require('../models/TypesModel');
+const ProductForModel = require('../models/ProductForModel');
 
 
 const createType = async (req, res) => {
@@ -22,7 +23,22 @@ const createType = async (req, res) => {
         description: bodyRequest.description
     });
 
+    if (!mongoose.Types.ObjectId.isValid(bodyRequest.productFor)) {
+        return res.status(400).json({
+            status: "Error 400: Bad request",
+            message: "ProductFor is not valid!",
+        });
+    }
+
     try {
+        const productExist = ProductForModel.findOne({ _id: bodyRequest.productFor });
+        if (!productExist) {
+            return res.status(400).json({
+                status: "Error 400: Bad request",
+                message: "ProductFor not found!",
+            })
+        }
+
         const type = await TypesModel.create(CreateNewType)
 
         return res.status(200).json({
