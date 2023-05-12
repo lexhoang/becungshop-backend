@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const TypesModel = require('../models/TypesModel');
-const ProductForModel = require('../models/ProductForModel');
 
 
 const createType = async (req, res) => {
