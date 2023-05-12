@@ -5,7 +5,6 @@ var cors = require('cors');
 
 
 const TypesRouter = require('./routers/TypesRouter');
-const ProductForRouter = require('./routers/ProductForRouter');
 const ProductRouter = require('./routers/ProductRouter');
 
 
@@ -35,7 +34,6 @@ mongoose.connect(mongoAtlasUri, { useNewUrlParser: true, useUnifiedTopology: tru
 
 
 app.use('/', TypesRouter);
-app.use('/', ProductForRouter);
 app.use('/', ProductRouter);
 
 
