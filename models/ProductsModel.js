@@ -19,7 +19,7 @@ const ProductSchema = new Schema({
 
     productFor: {
         type: mongoose.Types.ObjectId,
-        ref: 'types'
+        ref: 'productfors'
     },
 
     type: {

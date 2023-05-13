@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const ProductModel = require('../models/ProductsModel');
 const TypeModel = require('../models/TypesModel');
+const ProductForModel = require('../models/ProductForModel');
 
 
 const createProduct = async (req, res) => {
@@ -47,11 +48,12 @@ const createProduct = async (req, res) => {
     }
 
     try {
-        const typeExist = await TypeModel.findOne({ _id: bodyRequest.type, productFor: bodyRequest.productFor });
-        if (!typeExist) {
+        const productForExist = await ProductForModel.findOne({ _id: bodyRequest.productFor });
+        const typeExist = await TypeModel.findOne({ _id: bodyRequest.type });
+        if (!typeExist || !productForExist) {
             return res.status(400).json({
                 status: "Error 400: Bad request",
-                message: "TypeID or ProductFor not found!",
+                message: "Type or ProductFor not found!",
             })
         }
 

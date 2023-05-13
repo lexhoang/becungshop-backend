@@ -13,10 +13,6 @@ const TypeSchema = new Schema({
         type: String,
         required: true
     },
-    productFor: {
-        type: mongoose.Types.ObjectId,
-        ref: "productfors"
-    },
     description: {
         type: String,
     },

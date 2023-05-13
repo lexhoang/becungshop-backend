@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const TypesModel = require('../models/TypesModel');
-const ProductForModel = require('../models/ProductForModel');
 
 
 const createType = async (req, res) => {
@@ -19,26 +18,11 @@ const createType = async (req, res) => {
         _id: new mongoose.Types.ObjectId(),
         photoUrl: bodyRequest.photoUrl,
         name: bodyRequest.name,
-        productFor: bodyRequest.productFor,
         description: bodyRequest.description
     });
 
-    if (!mongoose.Types.ObjectId.isValid(bodyRequest.productFor)) {
-        return res.status(400).json({
-            status: "Error 400: Bad request",
-            message: "ProductFor is not valid!",
-        });
-    }
 
     try {
-        const productExist = ProductForModel.findOne({ _id: bodyRequest.productFor });
-        if (!productExist) {
-            return res.status(400).json({
-                status: "Error 400: Bad request",
-                message: "ProductFor not found!",
-            })
-        }
-
         const type = await TypesModel.create(CreateNewType)
 
         return res.status(200).json({
@@ -57,16 +41,12 @@ const createType = async (req, res) => {
 const getAllTypes = async (req, res) => {
     try {
         //B1: Thu thập dữ liệu
-        const { name, productFor } = req.query
+        const { name } = req.query
         const condition = {};
 
         if (name) {
             const regex = new RegExp(`${name}`);
             condition.name = regex;
-        }
-
-        if (productFor) {
-            condition.productFor = productFor
         }
 
         let limit = req.query.limit;
@@ -75,7 +55,6 @@ const getAllTypes = async (req, res) => {
         //B2: Validate dữ liệu
         //B3: Thao tác với cơ sở dữ liệu
         const type = await TypesModel.find(condition)
-            .populate('productFor')
             .limit(limit)
             .skip(skip)
             .exec()
@@ -132,7 +111,6 @@ const updateTypeById = async (req, res) => {
     let editType = {
         photoUrl: bodyRequest.photoUrl,
         name: bodyRequest.name,
-        productFor: bodyRequest.productFor,
         description: bodyRequest.description
     }
     try {
