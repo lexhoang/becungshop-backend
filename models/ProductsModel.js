@@ -45,19 +45,19 @@ const ProductSchema = new Schema({
         required: true
     },
     infoMinAge: {
-        type: Number,
+        type: String,
         required: true
     },
     infoMaxAge: {
-        type: Number,
+        type: String,
         required: true
     },
     infoMinWeight: {
-        type: Number,
+        type: String,
         required: true
     },
     infoMaxWeight: {
-        type: Number,
+        type: String,
         required: true
     },
     infoMaterial: {
