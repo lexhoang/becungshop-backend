@@ -34,12 +34,12 @@ const createProduct = async (req, res) => {
         description: bodyRequest.description
     });
 
-    if (!mongoose.Types.ObjectId.isValid(bodyRequest.productFor)) {
-        return res.status(400).json({
-            status: "Error 400: Bad request",
-            message: "Product For is not valid!",
-        });
-    }
+    // if (!mongoose.Types.ObjectId.isValid(bodyRequest.productFor)) {
+    //     return res.status(400).json({
+    //         status: "Error 400: Bad request",
+    //         message: "Product For is not valid!",
+    //     });
+    // }
     if (!mongoose.Types.ObjectId.isValid(bodyRequest.type)) {
         return res.status(400).json({
             status: "Error 400: Bad request",
@@ -48,9 +48,9 @@ const createProduct = async (req, res) => {
     }
 
     try {
-        const productForExist = await ProductForModel.findOne({ _id: bodyRequest.productFor });
+        // const productForExist = await ProductForModel.findOne({ _id: bodyRequest.productFor });
         const typeExist = await TypeModel.findOne({ _id: bodyRequest.type });
-        if (!typeExist || !productForExist) {
+        if (!typeExist) {
             return res.status(400).json({
                 status: "Error 400: Bad request",
                 message: "Type or ProductFor not found!",

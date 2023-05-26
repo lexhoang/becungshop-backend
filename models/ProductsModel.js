@@ -18,8 +18,8 @@ const ProductSchema = new Schema({
     },
 
     productFor: {
-        type: mongoose.Types.ObjectId,
-        ref: 'productfors'
+        type: String,
+        required: true
     },
 
     type: {
