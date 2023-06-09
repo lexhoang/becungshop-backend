@@ -88,8 +88,11 @@ const getAllProduct = async (req, res) => {
             condition.type = type;
         }
 
-        let limit = req.query.limit;
-        let skip = req.query.skip;
+        let limit = parseInt(req.query.limit);
+        let skip = parseInt(req.query.skip);
+
+        const totalProducts = await ProductModel.countDocuments(); // Đếm tổng số sản phẩm
+        const totalPages = Math.ceil(totalProducts / limit); // Tính toán số trang cần thiết
 
         const product = await ProductModel.find(condition)
             .populate('type')
@@ -99,7 +102,8 @@ const getAllProduct = async (req, res) => {
 
         return res.status(200).json({
             status: "Success: Get All Product successfully",
-            data: product
+            data: product,
+            totalPages: totalPages
         })
     } catch (error) {
         return res.status(500).json({

@@ -25,6 +25,10 @@ const UserSchema = new Schema({
         type: Number,
         required: true,
     },
+    active: {
+        type: Boolean,
+        default: true
+    },
     cart: [
         {
 

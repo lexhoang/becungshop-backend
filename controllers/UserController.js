@@ -11,6 +11,7 @@ const createUser = async (req, res) => {
         password: bodyRequest.password,
         name: bodyRequest.name,
         phone: bodyRequest.phone,
+        active: bodyRequest.active,
         cart: bodyRequest.cart
     });
 
@@ -69,6 +70,69 @@ const getAllUser = async (req, res) => {
     }
 }
 
+
+const getUserById = async (req, res) => {
+    let id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+            status: "Error 400: Bad Request",
+            message: "User ID is not a valid",
+        });
+    }
+
+    try {
+        const user = await UserModel.findById(id);
+
+        return res.status(200).json({
+            status: "Success: Get User By ID successfully",
+            data: user,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: "Error 500: Bad Request",
+            message: error.message,
+        });
+    }
+}
+
+
+const updateUserById = async (req, res) => {
+    let id = req.params.id;
+    let bodyRequest = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+            status: "Error 400: Bad Request",
+            message: "User ID is not a valid",
+        });
+    }
+
+    let updateUser = {
+        photoUrl: bodyRequest.photoUrl,
+        account: bodyRequest.account,
+        password: bodyRequest.password,
+        name: bodyRequest.name,
+        phone: bodyRequest.phone,
+        active: bodyRequest.active,
+        cart: bodyRequest.cart
+    }
+    try {
+        const user = await UserModel.findByIdAndUpdate(id, updateUser)
+
+        return res.status(200).json({
+            status: "Success: Update user By ID successfully",
+            data: user,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: "Error 500: Bad Request",
+            message: error.message,
+        });
+    }
+}
+
+
 const deleteUserById = (req, res) => {
     let id = req.params.id;
 
@@ -93,4 +157,4 @@ const deleteUserById = (req, res) => {
         })
 }
 
-module.exports = { createUser, getAllUser, deleteUserById }
+module.exports = { createUser, getAllUser, getUserById, updateUserById, deleteUserById }
