@@ -7,7 +7,7 @@ var cors = require('cors');
 const ProductForRouter = require('./routers/ProductForRouter');
 const ProductRouter = require('./routers/ProductRouter');
 const TypesRouter = require('./routers/TypesRouter');
-const UserRouter = require('./routers/UserRouter');
+const AuthRouter = require('./routers/AuthRouter');
 
 
 const app = express();
@@ -38,7 +38,7 @@ mongoose.connect(mongoAtlasUri, { useNewUrlParser: true, useUnifiedTopology: tru
 app.use('/', ProductForRouter);
 app.use('/', TypesRouter);
 app.use('/', ProductRouter);
-app.use('/', UserRouter);
+app.use('/', AuthRouter);
 
 
 

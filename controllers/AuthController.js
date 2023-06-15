@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const UserModel = require('../models/UserModel');
+const AuthModel = require('../models/AuthModel');
 
-const createUser = async (req, res) => {
+const createAuth = async (req, res) => {
     let bodyRequest = req.body;
 
-    let createNewUser = new UserModel({
+    let createNewauth = new AuthModel({
         _id: new mongoose.Types.ObjectId(),
         photoUrl: bodyRequest.photoUrl,
         account: bodyRequest.account,
@@ -16,11 +16,11 @@ const createUser = async (req, res) => {
     });
 
     try {
-        const user = await UserModel.create(createNewUser)
+        const auth = await AuthModel.create(createNewAuth)
 
         return res.status(200).json({
-            status: "Success: Create User successfully",
-            data: user
+            status: "Success: Create auth successfully",
+            data: auth
         });
     } catch (error) {
         return res.status(500).json({
@@ -31,7 +31,7 @@ const createUser = async (req, res) => {
 }
 
 
-const getAllUser = async (req, res) => {
+const getAllAuth = async (req, res) => {
     try {
         const { name, account, phone } = req.query;
         const condition = {};
@@ -53,14 +53,14 @@ const getAllUser = async (req, res) => {
         let limit = req.query.limit;
         let skip = req.query.skip;
 
-        const user = await UserModel.find(condition)
+        const auth = await AuthModel.find(condition)
             .limit(limit)
             .skip(skip)
             .exec()
 
         return res.status(200).json({
-            status: "Success: Get All User successfully",
-            data: user
+            status: "Success: Get All auth successfully",
+            data: auth
         })
     } catch (error) {
         return res.status(500).json({
@@ -71,22 +71,22 @@ const getAllUser = async (req, res) => {
 }
 
 
-const getUserById = async (req, res) => {
+const getAuthById = async (req, res) => {
     let id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
             status: "Error 400: Bad Request",
-            message: "User ID is not a valid",
+            message: "auth ID is not a valid",
         });
     }
 
     try {
-        const user = await UserModel.findById(id);
+        const auth = await AuthModel.findById(id);
 
         return res.status(200).json({
-            status: "Success: Get User By ID successfully",
-            data: user,
+            status: "Success: Get auth By ID successfully",
+            data: auth,
         });
     } catch (error) {
         return res.status(500).json({
@@ -97,18 +97,18 @@ const getUserById = async (req, res) => {
 }
 
 
-const updateUserById = async (req, res) => {
+const updateAuthById = async (req, res) => {
     let id = req.params.id;
     let bodyRequest = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
             status: "Error 400: Bad Request",
-            message: "User ID is not a valid",
+            message: "auth ID is not a valid",
         });
     }
 
-    let updateUser = {
+    let updateAuth = {
         photoUrl: bodyRequest.photoUrl,
         account: bodyRequest.account,
         password: bodyRequest.password,
@@ -118,11 +118,11 @@ const updateUserById = async (req, res) => {
         cart: bodyRequest.cart
     }
     try {
-        const user = await UserModel.findByIdAndUpdate(id, updateUser)
+        const auth = await AuthModel.findByIdAndUpdate(id, updateAuth)
 
         return res.status(200).json({
-            status: "Success: Update user By ID successfully",
-            data: user,
+            status: "Success: Update auth By ID successfully",
+            data: auth,
         });
     } catch (error) {
         return res.status(500).json({
@@ -133,20 +133,20 @@ const updateUserById = async (req, res) => {
 }
 
 
-const deleteUserById = (req, res) => {
+const deleteAuthById = (req, res) => {
     let id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
             status: "Error 400: Bad Request",
-            message: "User ID is not a valid",
+            message: "auth ID is not a valid",
         });
     }
 
-    UserModel.findByIdAndDelete(id)
+    AuthModel.findByIdAndDelete(id)
         .then((data) => {
             return res.status(200).json({
-                status: "Success: Delete User By ID successfully",
+                status: "Success: Delete auth By ID successfully",
             });
         })
         .catch((error) => {
@@ -157,4 +157,4 @@ const deleteUserById = (req, res) => {
         })
 }
 
-module.exports = { createUser, getAllUser, getUserById, updateUserById, deleteUserById }
+module.exports = { createAuth, getAllAuth, getAuthById, updateAuthById, deleteAuthById }
