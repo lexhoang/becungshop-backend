@@ -4,7 +4,7 @@ const AuthModel = require('../models/AuthModel');
 const createAuth = async (req, res) => {
     let bodyRequest = req.body;
 
-    let createNewauth = new AuthModel({
+    let createNewAuth = new AuthModel({
         _id: new mongoose.Types.ObjectId(),
         photoUrl: bodyRequest.photoUrl,
         account: bodyRequest.account,
