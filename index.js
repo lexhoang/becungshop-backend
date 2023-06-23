@@ -26,7 +26,6 @@ app.use(function (req, res, next) {
 });
 
 
-// app.get('/', (req, res) => res.send('Hello, world!'));
 
 const mongoAtlasUri = "mongodb+srv://lehoang999113:becungshop999@becungshop.b0iyq9x.mongodb.net/?retryWrites=true&w=majority"
 
@@ -34,6 +33,12 @@ mongoose.connect(mongoAtlasUri, { useNewUrlParser: true, useUnifiedTopology: tru
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Could not connect to MongoDB', err))
 
+
+app.get('/', (request, response) => {
+    response.status(200).json({
+        test: 1111
+    })
+});
 
 app.use('/', ProductForRouter);
 app.use('/', TypesRouter);
