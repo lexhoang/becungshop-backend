@@ -34,12 +34,6 @@ const createProduct = async (req, res) => {
         description: bodyRequest.description
     });
 
-    // if (!mongoose.Types.ObjectId.isValid(bodyRequest.productFor)) {
-    //     return res.status(400).json({
-    //         status: "Error 400: Bad request",
-    //         message: "Product For is not valid!",
-    //     });
-    // }
     if (!mongoose.Types.ObjectId.isValid(bodyRequest.type)) {
         return res.status(400).json({
             status: "Error 400: Bad request",
@@ -48,7 +42,6 @@ const createProduct = async (req, res) => {
     }
 
     try {
-        // const productForExist = await ProductForModel.findOne({ _id: bodyRequest.productFor });
         const typeExist = await TypeModel.findOne({ _id: bodyRequest.type });
         if (!typeExist) {
             return res.status(400).json({
@@ -57,11 +50,13 @@ const createProduct = async (req, res) => {
             })
         }
 
-        const product = await ProductModel.create(createNewProduct)
-
+        // const id = (await ProductModel.create(createNewProduct))._id
+        // const product = await ProductModel.findById(id).populate('type');
+        await createNewProduct.save()
+        createNewProduct.type = typeExist
         return res.status(200).json({
             status: "Success: Create Product successfully",
-            data: product
+            data: createNewProduct
         });
 
     } catch (error) {
@@ -141,7 +136,6 @@ const getProductById = async (req, res) => {
 const updateProductById = async (req, res) => {
     let id = req.params.id;
     let bodyRequest = req.body;
-
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
             status: "Error 400: Bad Request",
@@ -168,8 +162,9 @@ const updateProductById = async (req, res) => {
     }
 
     try {
-        const product = await ProductModel.findByIdAndUpdate(id, editProduct);
-
+        // await ProductModel.findByIdAndUpdate(id, editProduct);
+        // const product = ProductModel.findById(id).populate('type')
+        const product = await ProductModel.findByIdAndUpdate(id, editProduct, { new: true, upsert: true }).populate('type');
         return res.status(200).json({
             status: "Success: Update Product By Id successfully",
             data: product
@@ -195,7 +190,7 @@ const deleteProductById = async (req, res) => {
     ProductModel.findByIdAndDelete(id)
         .then((data) => {
             return res.status(200).json({
-                status: "Success: Delete Type By ID successfully",
+                status: "Success: Delete Product By ID successfully",
             });
         })
         .catch((error) => {

@@ -45,7 +45,7 @@ app.use('/', TypesRouter);
 app.use('/', ProductRouter);
 app.use('/', AuthRouter);
 
-
+console.log('hello')
 
 const PORT = 8080;
 app.listen(PORT, () => console.log(`Server listen onport ${PORT}`));

@@ -16,11 +16,11 @@ const createAuth = async (req, res) => {
     });
 
     try {
-        const auth = await AuthModel.create(createNewAuth)
-
+        // const auth = await AuthModel.create(createNewAuth)
+        await createNewAuth.save();
         return res.status(200).json({
             status: "Success: Create auth successfully",
-            data: auth
+            data: createNewAuth
         });
     } catch (error) {
         return res.status(500).json({
@@ -33,13 +33,8 @@ const createAuth = async (req, res) => {
 
 const getAllAuth = async (req, res) => {
     try {
-        const { name, account, phone } = req.query;
+        const { account, phone } = req.query;
         const condition = {};
-
-        if (name) {
-            const regex = new RegExp(`${name}`);
-            condition.name = regex;
-        }
 
         if (account) {
             const regex = new RegExp(`${account}`);
@@ -50,8 +45,11 @@ const getAllAuth = async (req, res) => {
             condition.phone = phone;
         }
 
-        let limit = req.query.limit;
-        let skip = req.query.skip;
+        let limit = parseInt(req.query.limit);
+        let skip = parseInt(req.query.skip);
+
+        const totalAuth = await AuthModel.countDocuments(); // Đếm tổng số sản phẩm
+        const totalPages = Math.ceil(totalAuth / limit); // Tính toán số trang cần thiết
 
         const auth = await AuthModel.find(condition)
             .limit(limit)
@@ -60,7 +58,8 @@ const getAllAuth = async (req, res) => {
 
         return res.status(200).json({
             status: "Success: Get All auth successfully",
-            data: auth
+            data: auth,
+            totalPages: totalPages
         })
     } catch (error) {
         return res.status(500).json({
@@ -118,8 +117,9 @@ const updateAuthById = async (req, res) => {
         cart: bodyRequest.cart
     }
     try {
-        const auth = await AuthModel.findByIdAndUpdate(id, updateAuth)
-
+        // await AuthModel.findByIdAndUpdate(id, updateAuth);
+        // const auth = AuthModel.findById(id)
+        const auth = await AuthModel.findByIdAndUpdate(id, updateAuth, { new: true, upsert: true });
         return res.status(200).json({
             status: "Success: Update auth By ID successfully",
             data: auth,
@@ -133,20 +133,20 @@ const updateAuthById = async (req, res) => {
 }
 
 
-const deleteAuthById = (req, res) => {
+const deleteAuthById = async (req, res) => {
     let id = req.params.id;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return res.status(400).json({
             status: "Error 400: Bad Request",
-            message: "auth ID is not a valid",
+            message: "Auth ID is not valid",
         });
     }
 
     AuthModel.findByIdAndDelete(id)
         .then((data) => {
             return res.status(200).json({
-                status: "Success: Delete auth By ID successfully",
+                status: "Success: Delete Auth By ID successfully",
             });
         })
         .catch((error) => {
