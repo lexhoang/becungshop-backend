@@ -33,7 +33,7 @@ const createAuth = async (req, res) => {
 
 const getAllAuth = async (req, res) => {
     try {
-        const { account, phone } = req.query;
+        const { account } = req.query;
         const condition = {};
 
         if (account) {
@@ -41,15 +41,15 @@ const getAllAuth = async (req, res) => {
             condition.account = regex;
         }
 
-        if (phone) {
-            condition.phone = phone;
-        }
+        // if (phone) {
+        //     condition.phone = phone;
+        // }
 
         let limit = parseInt(req.query.limit);
         let skip = parseInt(req.query.skip);
 
-        const totalAuth = await AuthModel.countDocuments(); // Đếm tổng số sản phẩm
-        const totalPages = Math.ceil(totalAuth / limit); // Tính toán số trang cần thiết
+        const totalAuth = await AuthModel.countDocuments();
+        const totalPagesAuth = Math.ceil(totalAuth / limit);
 
         const auth = await AuthModel.find(condition)
             .limit(limit)
@@ -59,7 +59,7 @@ const getAllAuth = async (req, res) => {
         return res.status(200).json({
             status: "Success: Get All auth successfully",
             data: auth,
-            totalPages: totalPages
+            totalPagesAuth: totalPagesAuth
         })
     } catch (error) {
         return res.status(500).json({
