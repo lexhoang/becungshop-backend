@@ -37,13 +37,13 @@ const getAllAuth = async (req, res) => {
         const condition = {};
 
         if (account) {
-            const regex = new RegExp(`${account}`);
+            const regex = new RegExp(account, "i");
             condition.account = regex;
         }
 
-        // if (phone) {
-        //     condition.phone = phone;
-        // }
+        if (phone) {
+            condition.phone = phone;
+        }
 
         let limit = parseInt(req.query.limit);
         let skip = parseInt(req.query.skip);
