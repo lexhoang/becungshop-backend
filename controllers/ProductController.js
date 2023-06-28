@@ -73,7 +73,7 @@ const getAllProduct = async (req, res) => {
         const condition = {};
 
         if (name) {
-            const regex = new RegExp(`${name}`);
+            const regex = new RegExp(name, "i");
             condition.name = regex;
         }
         if (productFor) {
