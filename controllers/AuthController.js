@@ -33,12 +33,17 @@ const createAuth = async (req, res) => {
 
 const getAllAuth = async (req, res) => {
     try {
-        const { account } = req.query;
+        const { account, name, phone } = req.query;
         const condition = {};
 
         if (account) {
             const regex = new RegExp(account, "i");
             condition.account = regex;
+        }
+
+        if (name) {
+            const regex = new RegExp(name, "i");
+            condition.name = regex;
         }
 
         if (phone) {
