@@ -16,6 +16,7 @@ const createProduct = async (req, res) => {
 
     let createNewProduct = new ProductModel({
         _id: new mongoose.Types.ObjectId(),
+        code: bodyRequest.code,
         photoUrl: bodyRequest.photoUrl,
         name: bodyRequest.name,
         productFor: bodyRequest.productFor,
@@ -143,6 +144,7 @@ const updateProductById = async (req, res) => {
         });
     }
     let editProduct = {
+        code: bodyRequest.code,
         photoUrl: bodyRequest.photoUrl,
         name: bodyRequest.name,
         productFor: bodyRequest.productFor,
