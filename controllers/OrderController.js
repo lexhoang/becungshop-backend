@@ -20,7 +20,7 @@ const createOrder = async (req, res) => {
         address: bodyRequest.name,
         note: bodyRequest.note,
         orderDetail: bodyRequest.orderDetail,
-
+        bill: bodyRequest.bill,
     })
 
     if (!mongoose.Types.ObjectId.isValid(bodyRequest.account)) {
@@ -84,7 +84,7 @@ const getAllOrder = async (req, res) => {
         const totalPages = Math.ceil(totalOrder / limit); // Tính toán số trang cần thiết
 
         const order = await OrderModel.find(condition)
-            .populate('type')
+            .populate('account')
             .limit(limit)
             .skip(skip)
             .exec()
@@ -142,7 +142,7 @@ const updateOrderById = async (req, res) => {
         phone: bodyRequest.name,
         address: bodyRequest.name,
         note: bodyRequest.note,
-        orderDetail: bodyRequest.orderDetail,
+        bill: bodyRequest.bill,
     }
 
     try {
