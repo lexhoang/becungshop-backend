@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const ProductModel = require('../models/ProductsModel');
 const TypeModel = require('../models/TypesModel');
-const ProductForModel = require('../models/ProductForModel');
 
 
 const createProduct = async (req, res) => {
@@ -69,12 +68,16 @@ const createProduct = async (req, res) => {
 
 const getAllProduct = async (req, res) => {
     try {
-        const { name, productFor, type } = req.query;
+        const { name, infoCode, productFor, type } = req.query;
         const condition = {};
 
         if (name) {
             const regex = new RegExp(name, "i");
             condition.name = regex;
+        }
+        if (infoCode) {
+            const regex = new RegExp(infoCode, "i");
+            condition.infoCode = regex;
         }
         if (productFor) {
             condition.productFor = productFor

@@ -2,21 +2,30 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const ProductForSchema = new Schema({
+const OrderSchema = new Schema({
     _id: {
         type: mongoose.Types.ObjectId
     },
-    photoUrl: {
+    account: {
         type: String,
+        required: true
     },
     name: {
         type: String,
-        unique: true,
         required: true
     },
-    description: {
-        type: String
+    phone: {
+        type: String,
+        required: true
     },
+    address: {
+        type: String,
+        required: true
+    },
+    note: {
+        type: String,
+    },
+    orderDetail: [],
     timeCreated: {
         type: Date,
         default: Date.now(),
@@ -27,4 +36,4 @@ const ProductForSchema = new Schema({
     },
 });
 
-module.exports = mongoose.model('productfors', ProductForSchema);
+module.exports = mongoose.model('orders', OrderSchema);

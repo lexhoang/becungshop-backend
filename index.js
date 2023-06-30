@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 var cors = require('cors');
 
 
-const ProductForRouter = require('./routers/ProductForRouter');
+const OrderRouter = require('./routers/OrderRouter');
 const ProductRouter = require('./routers/ProductRouter');
 const TypesRouter = require('./routers/TypesRouter');
 const AuthRouter = require('./routers/AuthRouter');
@@ -40,7 +40,7 @@ app.get('/', (request, response) => {
     })
 });
 
-app.use('/', ProductForRouter);
+app.use('/', OrderRouter);
 app.use('/', TypesRouter);
 app.use('/', ProductRouter);
 app.use('/', AuthRouter);
