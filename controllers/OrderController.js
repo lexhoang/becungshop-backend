@@ -14,16 +14,17 @@ const createOrder = async (req, res) => {
 
     let createNewOrder = new OrderModel({
         _id: new mongoose.Types.ObjectId(),
-        account: bodyRequest.account,
+        accountID: bodyRequest.accountID,
+        accountName: bodyRequest.accountName,
         name: bodyRequest.name,
-        phone: bodyRequest.name,
-        address: bodyRequest.name,
+        phone: bodyRequest.phone,
+        address: bodyRequest.address,
         note: bodyRequest.note,
         orderDetail: bodyRequest.orderDetail,
         bill: bodyRequest.bill,
     })
 
-    if (!mongoose.Types.ObjectId.isValid(bodyRequest.account)) {
+    if (!mongoose.Types.ObjectId.isValid(bodyRequest.accountID)) {
         return res.status(400).json({
             status: "Error 400: Bad request",
             message: "Type is not valid!",
@@ -31,7 +32,7 @@ const createOrder = async (req, res) => {
     }
 
     try {
-        const authExist = await AuthModel.findOne({ _id: bodyRequest.account });
+        const authExist = await AuthModel.findOne({ _id: bodyRequest.accountID });
         if (!authExist) {
             return res.status(400).json({
                 status: "Error 400: Bad request",
@@ -40,9 +41,9 @@ const createOrder = async (req, res) => {
         }
 
         // const id = (await OrderModel.create(createNewOrder))._id
-        // const order = await OrderModel.findById(id).populate('account');
+        // const order = await OrderModel.findById(id).populate('accountID');
         await createNewOrder.save()
-        createNewOrder.account = authExist
+        createNewOrder.accountID = authExist
         return res.status(200).json({
             status: "Success: Create order successfully",
             data: createNewOrder
@@ -58,12 +59,12 @@ const createOrder = async (req, res) => {
 
 const getAllOrder = async (req, res) => {
     try {
-        const { account, name, phone, address } = req.query;
+        const { accountName, name, phone, address } = req.query;
         const condition = {};
 
-        if (account) {
-            const regex = new RegExp(account, "i");
-            condition.account = regex;
+        if (accountName) {
+            const regex = new RegExp(accountName, "i");
+            condition.accountName = regex;
         }
         if (name) {
             const regex = new RegExp(name, "i");
@@ -84,7 +85,7 @@ const getAllOrder = async (req, res) => {
         const totalPages = Math.ceil(totalOrder / limit); // Tính toán số trang cần thiết
 
         const order = await OrderModel.find(condition)
-            .populate('account')
+            .populate('accountID')
             .limit(limit)
             .skip(skip)
             .exec()
@@ -137,18 +138,19 @@ const updateOrderById = async (req, res) => {
         });
     }
     let editOrder = {
-        account: bodyRequest.account,
+        accountID: bodyRequest.accountID,
+        accountName: bodyRequest.accountName,
         name: bodyRequest.name,
-        phone: bodyRequest.name,
-        address: bodyRequest.name,
+        phone: bodyRequest.phone,
+        address: bodyRequest.address,
         note: bodyRequest.note,
         bill: bodyRequest.bill,
     }
 
     try {
         // await OrderModel.findByIdAndUpdate(id, editOrder);
-        // const order = OrderModel.findById(id).populate('type')
-        const order = await OrderModel.findByIdAndUpdate(id, editOrder, { new: true, upsert: true }).populate('account');
+        // const order = OrderModel.findById(id).populate('accountID')
+        const order = await OrderModel.findByIdAndUpdate(id, editOrder, { new: true, upsert: true }).populate('accountID');
         return res.status(200).json({
             status: "Success: Update Order By Id successfully",
             data: order

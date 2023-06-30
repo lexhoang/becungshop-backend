@@ -6,7 +6,11 @@ const OrderSchema = new Schema({
     _id: {
         type: mongoose.Types.ObjectId
     },
-    account: {
+    accountID: {
+        type: String,
+        required: true
+    },
+    accountName: {
         type: String,
         required: true
     },
