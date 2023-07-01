@@ -144,6 +144,7 @@ const updateOrderById = async (req, res) => {
         phone: bodyRequest.phone,
         address: bodyRequest.address,
         note: bodyRequest.note,
+        orderDetail: bodyRequest.orderDetail,
         bill: bodyRequest.bill,
     }
 

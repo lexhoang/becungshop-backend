@@ -166,7 +166,7 @@ const updateProductById = async (req, res) => {
 
     try {
         // await ProductModel.findByIdAndUpdate(id, editProduct);
-        // const product = ProductModel.findById(id).populate('type')
+        // const product = await ProductModel.findById(id).populate('type')
         const product = await ProductModel.findByIdAndUpdate(id, editProduct, { new: true, upsert: true }).populate('type');
         return res.status(200).json({
             status: "Success: Update Product By Id successfully",
