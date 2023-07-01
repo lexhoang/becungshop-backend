@@ -146,6 +146,7 @@ const updateOrderById = async (req, res) => {
         note: bodyRequest.note,
         orderDetail: bodyRequest.orderDetail,
         bill: bodyRequest.bill,
+        timeUpdated: Date.now()
     }
 
     try {
