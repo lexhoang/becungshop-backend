@@ -89,8 +89,18 @@ const getAllProduct = async (req, res) => {
         let limit = parseInt(req.query.limit);
         let skip = parseInt(req.query.skip);
 
-        const totalProducts = await ProductModel.countDocuments(); // Đếm tổng số sản phẩm
-        const totalPages = Math.ceil(totalProducts / limit); // Tính toán số trang cần thiết
+        let totalProducts;
+        let totalPages;
+
+        if (name || infoCode || productFor || type) {
+            // Đếm tổng số sản phẩm phù hợp với điều kiện tìm kiếm
+            totalProducts = await ProductModel.countDocuments(condition);
+            totalPages = Math.ceil(totalProducts / limit);
+        } else {
+            // Nếu không có điều kiện tìm kiếm, lấy dữ liệu như cũ
+            totalProducts = await ProductModel.countDocuments({});
+            totalPages = Math.ceil(totalProducts / limit);
+        }
 
         const product = await ProductModel.find(condition)
             .populate('type')
@@ -110,6 +120,7 @@ const getAllProduct = async (req, res) => {
         })
     }
 }
+
 
 const getProductById = async (req, res) => {
     let id = req.params.id;
